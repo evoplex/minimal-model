@@ -1,14 +1,10 @@
 {
   "type": "model",
-  "uid": "minimalModel",
-  "name": "Mininal Model",
+  "uid": "populationGrowth",
+  "name": "Population Growth",
   "author": "Evoplex",
   "description": "This is a mininal example of a model plugin for Evoplex.",
 
-  "pluginAttributesScope": [],
-  "nodeAttributesScope": [],
-  "edgeAttributesScope": [],
-
-  "supportedGraphs": [],
-  "customOutputs": []
+  "nodeAttributesScope": [ {"infected": "bool"} ],
+  "pluginAttributesScope": [ {"prob": "double[0,1]"} ]
 }
