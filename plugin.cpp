@@ -7,90 +7,47 @@
 
 namespace evoplex {
 // Global variables
-//double prob;
-//Nodes nodes_g;
+double prob;
 //int no_nodes;
+int numberOfNodes;
 
 bool MinimalModel::init()
 {
-//     Local nodes to initialize
-//    Nodes nodes;
+    m_infected = AbstractModel::nodes().at(0)->attrs().indexOf("infected");
 
-//    // Storing probability
-//    prob = attr("prob").toDouble();
-//    no_nodes = attr("#nodes").toInt();
+    // Storing probability
+    prob = attr("prob").toDouble();
 
-//    nodes =
-    // Storing graph type
-//    GraphType graphType;
-//    QString graphInputStr = attr("graphType").toQString();
-//    if(graphInputStr == "undirected"){
-//        graphType = GraphType::Undirected;
-//    } if(graphInputStr == "directed"){
-//        graphType = GraphType::Directed;
-//    } else {
-//        graphType = GraphType::Invalid;
-//    }
-
-//    // Creating attributes scope
-//    QString errorMsg;
-//    AttributesScope attrsScope;
-//    QString attrRgeStr = "bool", attrRgeName = "infected";
-//    AttributeRange* col0 = AttributeRange::parse(0, attrRgeName, attrRgeStr);
-//    attrsScope.insert(col0->attrName(), col0);
-
-//    // Generating set of nodes
-//    nodes = Nodes::fromCmd(cmd, attrsScope, graphType, errorMsg);
-
-//    // Initializing infected input
-//    m_infected = nodes.at(0)->attrs().indexOf("infected");
-
-//    // Setting the global nodes, so algorithmStep() can access them
-//    nodes_g = nodes;
-    return true;
+    numberOfNodes = AbstractModel::nodes().size();
+    return m_infected >= 0;
 }
 
 bool MinimalModel::algorithmStep()
 {
-//    bool isInfected, isNeighbourInfected;
-//    int nodeID = -1;
-//    NodePtr neighbour;
-//    double randTest;
-//    PRG* prg = new PRG(123);
+    PRG* prg = new PRG(123);
+    NodePtr currentNode, neighbour;
+    double randTest;
 
-//    // For each node
-//    for(int i = 0; i < nodes_g.size(); i++){
-//        // Checks if a node is infected
-//        isInfected = nodes_g.at(i)->attrs().value(m_infected).toBool();
+    // For each node
+    for(int i = 0; i < numberOfNodes; i++){
+        currentNode = AbstractModel::nodes().at(i);
 
-//        // If the current node is healthy
-//        if(!isInfected){
-//            // While there is no random node generated yet,
-//            // and the random node ID is not the ID of the current node
-//            while((nodeID != -1) && (nodeID != i)){
-//                // Select a random node ID
-//                nodeID = prg->randI(0, nodes_g.size());
-//            }
+        // Select a random neighbour
+        neighbour = currentNode->randNeighbour(prg);
 
-//            // Check if neighbour is infected
-//            neighbour = nodes_g.at(nodeID);
-//            isNeighbourInfected = neighbour->attrs().value(m_infected).toBool();
+        // Check if the neighbour is infected
+        if(neighbour->attrs().value(m_infected).toBool()){
+            // Generate a random double in the range [0,1]
+            randTest = prg->randD(0,1);
 
-//            // If the neighbour is infected
-//            if(isNeighbourInfected){
-//                // Generate a random double in the range [0,1]
-//                randTest = prg->randD(0,1);
-
-//                // Test if the number is less than or equal to the probablilty
-//                // (The probablity of this being true is the same as the probability itself)
-//                // If it is
-//                if(randTest <= prob){
-//                    // Infect the current node
-//                    isInfected = true;
-//                }
-//            }
-//        }
-//    }
+            // Test if the number is less than or equal to the probablilty
+            // (The probablity of this being true is the same as the probability itself)
+            // Infect the current node if true
+            if(randTest <= prob){
+                currentNode->setAttr(m_infected, true);
+            }
+        }
+    }
     return false;
 }
 
