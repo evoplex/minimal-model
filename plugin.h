@@ -14,6 +14,9 @@ class MinimalModel: public AbstractModel
 public:
     bool init() override;
     bool algorithmStep() override;
+
+private:
+    int m_infected;
 };
 } // evoplex
 #endif // MINIMAL_MODEL_H
