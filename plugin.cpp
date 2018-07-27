@@ -6,19 +6,19 @@
 #include "plugin.h"
 
 namespace evoplex {
+
 // Global variables
 double prob;
-//int no_nodes;
 int numberOfNodes;
 
 bool MinimalModel::init()
 {
     m_infected = AbstractModel::nodes().at(0)->attrs().indexOf("infected");
 
-    // Storing probability
+    // Initializing global variables
     prob = attr("prob").toDouble();
-
     numberOfNodes = AbstractModel::nodes().size();
+
     return m_infected >= 0;
 }
 
