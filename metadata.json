@@ -1,7 +1,8 @@
 {
   "type": "model",
   "uid": "minimalModel",
-  "name": "Mininal Model",
+  "version": 1,
+  "title": "Mininal Model",
   "author": "Evoplex",
   "description": "This is a mininal example of a model plugin for Evoplex.",
 
