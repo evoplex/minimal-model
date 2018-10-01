@@ -1,21 +1,15 @@
-/**
- * Evoplex <https://evoplex.org>
- * Copyright (C) 2016-present
- */
+// Evoplex <https://evoplex.org>
 
 #include "plugin.h"
 
 namespace evoplex {
 
-bool MinimalModel::init()
-{
-    return true;
-}
 
 bool MinimalModel::algorithmStep()
 {
     return false;
 }
+
 
 } // evoplex
 REGISTER_PLUGIN(MinimalModel)
